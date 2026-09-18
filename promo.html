@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>キャンペーンくじ｜スロット・ルーレット・スクラッチ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Bebas+Neue&display=swap">
+<style>
+:root{--bg:#1a0f2e;--card:#2a1a4a;--gold:#ffd166;--pink:#ff5d8f;--cyan:#4cc9f0;--ink:#fff;--muted:#b9a9d9}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:radial-gradient(circle at 50% 0%,#3b1f6e,var(--bg) 60%);color:var(--ink);font-family:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN",system-ui,sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:18px 14px 40px}
+h1{font-family:"Bebas Neue",sans-serif;font-size:clamp(26px,7vw,44px);padding:0 44px;letter-spacing:.06em;margin:6px 0 0;background:linear-gradient(180deg,#fff,var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent;text-align:center;line-height:1}
+.sub{color:var(--muted);font-size:12px;letter-spacing:.2em;margin:4px 0 16px}
+.tabs{display:flex;gap:6px;background:rgba(0,0,0,.3);padding:5px;border-radius:999px;margin-bottom:18px}
+.tabs button{background:transparent;border:0;color:var(--muted);font:700 13px/1 inherit;padding:10px 16px;border-radius:999px;cursor:pointer}
+.tabs button.on{background:var(--gold);color:#3a2a00}
+.stage{width:min(100%,420px);background:var(--card);border-radius:24px;padding:22px;box-shadow:0 30px 60px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.08);position:relative;overflow:hidden}
+.stage:before{content:"";position:absolute;inset:-40%;background:conic-gradient(from 0deg,transparent 0 80%,rgba(255,255,255,.06) 90%,transparent 100%);animation:spin 8s linear infinite;pointer-events:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+.panel{display:none}.panel.on{display:block}
+.go{width:100%;margin-top:18px;background:linear-gradient(180deg,#ff7aa6,var(--pink) 60%,#d63d6e);color:#fff;border:0;border-radius:16px;padding:18px;font:900 20px/1 inherit;letter-spacing:.1em;cursor:pointer;box-shadow:0 6px 0 #8a2247,0 14px 30px rgba(255,93,143,.35);position:relative}
+.go:active{transform:translateY(4px);box-shadow:0 2px 0 #8a2247}
+.go:disabled{opacity:.5;cursor:default}
+.result{min-height:70px;text-align:center;margin-top:14px;font-weight:900;font-size:22px}
+.result small{display:block;font-weight:500;font-size:13px;color:var(--muted);margin-top:4px}
+.result.win{color:var(--gold);text-shadow:0 0 20px rgba(255,209,102,.6)}
+.tries{text-align:center;font-size:12px;color:var(--muted);margin-top:8px}
+/* slot */
+.reels{display:flex;gap:10px;justify-content:center;background:#0e0820;padding:16px;border-radius:16px;border:3px solid var(--gold);box-shadow:inset 0 0 30px rgba(0,0,0,.6)}
+.reel{width:92px;height:110px;overflow:hidden;background:linear-gradient(180deg,#fff,#e9e2f5);border-radius:10px;position:relative}
+.reel:before,.reel:after{content:"";position:absolute;left:0;right:0;height:30px;z-index:2;pointer-events:none}
+.reel:before{top:0;background:linear-gradient(#000a,transparent)}.reel:after{bottom:0;background:linear-gradient(transparent,#000a)}
+.strip{display:flex;flex-direction:column;transition:transform .1s}
+.strip span{height:110px;display:grid;place-items:center;font-size:56px}
+/* roulette */
+.wheel-wrap{position:relative;width:300px;height:300px;margin:0 auto}
+.wheel{width:100%;height:100%;border-radius:50%;border:8px solid var(--gold);box-shadow:0 0 0 6px #0e0820,0 20px 40px rgba(0,0,0,.5);transition:transform 4.2s cubic-bezier(.12,.7,.1,1)}
+.pointer{position:absolute;left:50%;top:-14px;transform:translateX(-50%);width:0;height:0;border-left:16px solid transparent;border-right:16px solid transparent;border-top:30px solid var(--pink);filter:drop-shadow(0 4px 4px rgba(0,0,0,.5));z-index:2}
+.hub{position:absolute;left:50%;top:50%;width:54px;height:54px;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,var(--gold) 60%);box-shadow:0 4px 12px rgba(0,0,0,.5)}
+.legend{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:12px;font-size:11px}
+.legend span{display:inline-flex;align-items:center;gap:5px;background:rgba(0,0,0,.3);padding:4px 10px;border-radius:999px}
+.legend i{width:10px;height:10px;border-radius:50%;display:inline-block}
+/* scratch */
+.scr{position:relative;width:100%;aspect-ratio:1.6;border-radius:16px;overflow:hidden;background:#fff;color:#3a2a00;display:grid;place-items:center;text-align:center}
+.scr .under{font-weight:900;font-size:30px;padding:10px}
+.scr .under small{display:block;font-size:13px;font-weight:700;color:#7a6a3a}
+.scr canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:crosshair}
+.hint{text-align:center;font-size:12px;color:var(--muted);margin-top:8px}
+/* confetti */
+canvas.fx{position:fixed;inset:0;pointer-events:none;z-index:50}
+/* admin */
+.admin-btn{position:fixed;right:12px;top:12px;background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:8px;padding:6px 10px;font:700 11px/1 inherit;cursor:pointer}
+.admin{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;padding:16px;z-index:60}
+.admin.on{display:flex}
+.admin .box{background:#fff;color:#222;border-radius:16px;padding:22px;width:min(100%,520px);max-height:90vh;overflow:auto}
+.admin h2{margin:0 0 4px;font-size:18px}.admin p{margin:0 0 14px;font-size:12px;color:#666}
+.admin table{width:100%;border-collapse:collapse;font-size:13px}
+.admin td,.admin th{padding:6px 6px;border-bottom:1px solid #eee;text-align:left}
+.admin input{width:100%;padding:6px 8px;border:1px solid #ccc;border-radius:6px;font:inherit}
+.admin input[type=number]{width:80px}
+.admin table{width:100%;border-collapse:collapse;table-layout:fixed}.admin td:nth-child(1){width:18%}.admin td:nth-child(2){width:42%}.admin input{width:100%;box-sizing:border-box}
+.admin .row{display:flex;gap:8px;margin-top:12px;align-items:center;font-size:13px}
+.admin button{padding:10px 16px;border-radius:8px;border:0;font:700 13px/1 inherit;cursor:pointer;background:#2a1a4a;color:#fff}
+.admin button.ghost{background:#eee;color:#333}
+.admin .stat{background:#f6f3fb;border-radius:8px;padding:10px 12px;font-size:12px;margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:4px}
+.admin .warn{color:#c0392b;font-size:12px}
+.coupon{margin-top:12px;background:#fff;color:#3a2a00;border-radius:12px;padding:14px;text-align:center;display:none}
+.coupon.on{display:block}
+.coupon b{font-family:"Bebas Neue",sans-serif;font-size:32px;letter-spacing:.1em;display:block}
+.coupon small{font-size:11px;color:#7a6a3a}
+</style>
+</head>
+<body>
+<button class="admin-btn" id="openAdmin">⚙ 管理</button>
+<h1>ハーブフランク屋台<br>感謝くじ</h1>
+<p class="sub">1日1回チャレンジ</p>
+<div class="tabs"><button class="on" data-p="slot">スロット</button><button data-p="roul">ルーレット</button><button data-p="scr">スクラッチ</button></div>
+
+<div class="stage">
+  <!-- スロット -->
+  <div class="panel on" id="slot">
+    <div class="reels"><div class="reel"><div class="strip"></div></div><div class="reel"><div class="strip"></div></div><div class="reel"><div class="strip"></div></div></div>
+    <button class="go" id="slotGo">スタート</button>
+  </div>
+  <!-- ルーレット -->
+  <div class="panel" id="roul">
+    <div class="wheel-wrap"><div class="pointer"></div><div class="wheel" id="wheel"></div><div class="hub"></div></div>
+    <div class="legend" id="legend"></div>
+    <button class="go" id="roulGo">回す</button>
+  </div>
+  <!-- スクラッチ -->
+  <div class="panel" id="scr">
+    <div class="scr"><div class="under" id="under">？<small>けずってね</small></div><canvas id="scrC"></canvas></div>
+    <p class="hint">指やマウスでこすると出てきます</p>
+  </div>
+  <div class="result" id="result"></div>
+  <div class="coupon" id="coupon"><small>スタッフに見せてください</small><b id="code">—</b><small id="cexp"></small></div>
+  <div class="tries" id="tries"></div>
+</div>
+
+<div class="admin" id="admin"><div class="box">
+  <h2>管理画面（当選設定）</h2><p>ここで設定した確率で3つのゲームすべてが動きます。合計が100%になるように。ブラウザに保存されます。</p>
+  <table><thead><tr><th>賞</th><th>内容</th><th>確率%</th><th>上限/日</th></tr></thead><tbody id="prizeRows"></tbody></table>
+  <div class="row"><span id="sum"></span><span class="warn" id="warn"></span></div>
+  <div class="row"><label>1人あたりの回数／日 <input type="number" id="perDay" min="1" value="1" style="width:70px"></label></div>
+  <div class="stat" id="stat"></div>
+  <div class="row"><button id="save">保存</button><button class="ghost" id="resetDraw">今日の抽選履歴をリセット</button><button class="ghost" id="closeAdmin">閉じる</button></div>
+</div></div>
+<canvas class="fx" id="fx"></canvas>
+
+<script>
+/* ---------- 設定 ---------- */
+const DEF={prizes:[{n:'1等',d:'ハーブフランク1本 無料',p:3,cap:5,e:'🌭'},{n:'2等',d:'トッピング1つ無料',p:12,cap:30,e:'🧀'},{n:'3等',d:'マスタード増量',p:35,cap:0,e:'🥇'},{n:'ハズレ',d:'また明日！',p:50,cap:0,e:'🍀'}],perDay:1};
+const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch(e){return d;}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}};
+let cfg=store.get('promo.cfg',DEF);
+const today=()=>new Date().toISOString().slice(0,10);
+let log=store.get('promo.log',{date:today(),counts:{},plays:0});if(log.date!==today())log={date:today(),counts:{},plays:0};
+let my=store.get('promo.my',{date:today(),n:0});if(my.date!==today())my={date:today(),n:0};
+const $=id=>document.getElementById(id);
+
+/* ---------- 抽選（共通） ---------- */
+function draw(){
+  const pool=cfg.prizes.map((pr,i)=>({...pr,i}));
+  // 上限に達した賞は確率0にしてハズレへ寄せる
+  let total=0;const w=pool.map(pr=>{const capped=pr.cap>0&&(log.counts[pr.i]||0)>=pr.cap;const x=capped?0:pr.p;total+=x;return x;});
+  let r=Math.random()*total;for(let i=0;i<pool.length;i++){r-=w[i];if(r<=0){return pool[i];}}
+  return pool[pool.length-1];
+}
+function canPlay(){return my.n<cfg.perDay;}
+function commit(pr){log.counts[pr.i]=(log.counts[pr.i]||0)+1;log.plays++;store.set('promo.log',log);my.n++;store.set('promo.my',my);showTries();}
+function showTries(){$('tries').textContent=canPlay()?`本日あと ${cfg.perDay-my.n} 回`:'本日の分は終了。また明日！';['slotGo','roulGo'].forEach(id=>$(id).disabled=!canPlay());}
+function showResult(pr){const isWin=pr.i<cfg.prizes.length-1;const r=$('result');r.className='result'+(isWin?' win':'');r.innerHTML=(isWin?`${pr.e} ${pr.n}！`:`${pr.e} ${pr.n}`)+`<small>${pr.d}</small>`;
+  if(isWin){confetti();const code='HF-'+Math.random().toString(36).slice(2,6).toUpperCase();$('code').textContent=code;$('cexp').textContent='本日限り有効・'+pr.d;$('coupon').classList.add('on');}else $('coupon').classList.remove('on');}
+
+/* ---------- タブ ---------- */
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('on',x===b));document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('on',p.id===b.dataset.p));$('result').innerHTML='';$('coupon').classList.remove('on');if(b.dataset.p==='scr')initScratch();});
+
+/* ---------- スロット ---------- */
+const SYM=cfg.prizes.map(p=>p.e);
+const strips=[...document.querySelectorAll('.strip')];
+function fillStrip(s,order){s.innerHTML=order.map(x=>`<span>${x}</span>`).join('');}
+strips.forEach(s=>fillStrip(s,[...SYM,...SYM,...SYM]));
+$('slotGo').onclick=()=>{if(!canPlay())return;$('slotGo').disabled=true;$('result').innerHTML='';$('coupon').classList.remove('on');
+  const pr=draw();const isWin=pr.i<cfg.prizes.length-1;
+  // 当たりなら3つ揃える。ハズレなら最後の1つをずらす
+  const finals=isWin?[pr.e,pr.e,pr.e]:[pr.e,pr.e,SYM[(pr.i+1)%SYM.length]];
+  strips.forEach((s,k)=>{const seq=[];for(let i=0;i<14+k*4;i++)seq.push(SYM[Math.floor(Math.random()*SYM.length)]);seq.push(finals[k]);fillStrip(s,seq);s.style.transition='none';s.style.transform='translateY(0)';
+    requestAnimationFrame(()=>{s.style.transition=`transform ${1.6+k*.6}s cubic-bezier(.15,.8,.2,1)`;s.style.transform=`translateY(-${(seq.length-1)*110}px)`;});
+    setTimeout(()=>tick(),(1.6+k*.6)*1000);});
+  setTimeout(()=>{commit(pr);showResult(pr);},(1.6+2*.6)*1000+100);
+};
+
+/* ---------- ルーレット ---------- */
+const COL=['#ffd166','#ff5d8f','#4cc9f0','#8d6e97','#f4a261','#2a9d8f'];
+let segs=[];
+function buildWheel(){segs=[];cfg.prizes.forEach((p,i)=>{const n=Math.max(1,Math.round(p.p/10));for(let k=0;k<n;k++)segs.push(i);});
+  // 同じ賞が隣り合わないよう簡易シャッフル
+  for(let i=segs.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[segs[i],segs[j]]=[segs[j],segs[i]];}
+  const deg=360/segs.length;const stops=segs.map((pi,i)=>`${COL[pi%COL.length]} ${i*deg}deg ${(i+1)*deg}deg`).join(',');
+  $('wheel').style.background=`conic-gradient(${stops})`;
+  $('legend').innerHTML=cfg.prizes.map((p,i)=>`<span><i style="background:${COL[i%COL.length]}"></i>${p.n}：${p.d}</span>`).join('');
+  $('wheel').innerHTML=segs.map((pi,i)=>`<div style="position:absolute;left:50%;top:50%;transform:rotate(${i*deg+deg/2}deg) translateY(-118px) rotate(180deg);transform-origin:0 0;font-size:20px;margin-left:-10px">${cfg.prizes[pi].e}</div>`).join('');}
+let rot=0;
+$('roulGo').onclick=()=>{if(!canPlay())return;$('roulGo').disabled=true;$('result').innerHTML='';$('coupon').classList.remove('on');
+  const pr=draw();const cands=segs.map((pi,i)=>pi===pr.i?i:-1).filter(i=>i>=0);const idx=cands[Math.floor(Math.random()*cands.length)];
+  const deg=360/segs.length;const target=360-(idx*deg+deg/2)+(Math.random()-.5)*deg*.6; // ポインタ(上)に来る角度
+  rot+=360*5+((target-rot%360)+360)%360;$('wheel').style.transform=`rotate(${rot}deg)`;
+  setTimeout(()=>{commit(pr);showResult(pr);tick();},4300);};
+
+/* ---------- スクラッチ ---------- */
+let scrInit=false,scrPr=null,scrDone=false;
+function initScratch(){const c=$('scrC');const box=c.parentElement;const W=box.clientWidth,H=box.clientHeight;c.width=W*2;c.height=H*2;const g=c.getContext('2d');g.scale(2,2);
+  scrDone=false;scrPr=null;
+  if(!canPlay()){$('under').innerHTML='また明日<small>本日の分は終了</small>';g.clearRect(0,0,W,H);return;}
+  scrPr=draw();$('under').innerHTML=`${scrPr.e} ${scrPr.n}<small>${scrPr.d}</small>`;
+  const grad=g.createLinearGradient(0,0,W,H);grad.addColorStop(0,'#b8b8c8');grad.addColorStop(.5,'#e8e8f0');grad.addColorStop(1,'#a0a0b4');g.fillStyle=grad;g.fillRect(0,0,W,H);
+  g.fillStyle='#6a6a80';g.font='900 22px sans-serif';g.textAlign='center';g.fillText('ここをこすってね',W/2,H/2+8);for(let i=0;i<40;i++){g.fillStyle='rgba(255,255,255,.35)';g.beginPath();g.arc(Math.random()*W,Math.random()*H,Math.random()*6,0,7);g.fill();}
+  g.globalCompositeOperation='destination-out';let down=false,cleared=0;
+  const pt=e=>{const r=c.getBoundingClientRect();const t=e.touches?e.touches[0]:e;return [t.clientX-r.left,t.clientY-r.top];};
+  const scratch=e=>{if(!down||scrDone)return;const [x,y]=pt(e);g.beginPath();g.arc(x,y,18,0,7);g.fill();e.preventDefault();
+    if(++cleared%8===0){const d=g.getImageData(0,0,c.width,c.height).data;let n=0;for(let i=3;i<d.length;i+=4*7)if(d[i]===0)n++;if(n/(d.length/(4*7))>.45){scrDone=true;g.clearRect(0,0,W,H);commit(scrPr);showResult(scrPr);}}};
+  c.onmousedown=e=>{down=true;scratch(e);};c.onmousemove=scratch;addEventListener('mouseup',()=>down=false);
+  c.ontouchstart=e=>{down=true;scratch(e);};c.ontouchmove=scratch;c.ontouchend=()=>down=false;
+  scrInit=true;}
+
+/* ---------- 演出 ---------- */
+const fx=$('fx'),fg=fx.getContext('2d');let parts=[];
+function confetti(){fx.width=innerWidth;fx.height=innerHeight;for(let i=0;i<140;i++)parts.push({x:innerWidth/2,y:innerHeight*.4,vx:(Math.random()-.5)*14,vy:-Math.random()*14-4,c:COL[i%COL.length],r:Math.random()*6+3,a:Math.random()*6,life:1});
+  (function step(){fg.clearRect(0,0,fx.width,fx.height);parts=parts.filter(p=>p.life>0);parts.forEach(p=>{p.vy+=.35;p.x+=p.vx;p.y+=p.vy;p.a+=.2;p.life-=.012;fg.save();fg.translate(p.x,p.y);fg.rotate(p.a);fg.globalAlpha=Math.max(0,p.life);fg.fillStyle=p.c;fg.fillRect(-p.r,-p.r/2,p.r*2,p.r);fg.restore();});if(parts.length)requestAnimationFrame(step);})();}
+let AC;function tick(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.type='square';o.frequency.value=900;g.gain.setValueAtTime(.06,AC.currentTime);g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+.08);o.connect(g).connect(AC.destination);o.start();o.stop(AC.currentTime+.08);}catch(e){}}
+
+/* ---------- 管理画面 ---------- */
+function renderAdmin(){$('prizeRows').innerHTML=cfg.prizes.map((p,i)=>`<tr><td><input value="${p.n}" data-k="n" data-i="${i}"></td><td><input value="${p.d}" data-k="d" data-i="${i}"></td><td><input type="number" min="0" max="100" value="${p.p}" data-k="p" data-i="${i}"></td><td><input type="number" min="0" value="${p.cap}" data-k="cap" data-i="${i}" title="0=無制限"></td></tr>`).join('');
+  $('perDay').value=cfg.perDay;checkSum();
+  $('stat').innerHTML=`<span>本日の抽選回数：${log.plays}</span>`+cfg.prizes.map((p,i)=>`<span>${p.n}：${log.counts[i]||0}回${p.cap?` / 上限${p.cap}`:''}</span>`).join('');}
+function checkSum(){const s=[...document.querySelectorAll('[data-k=p]')].reduce((a,e)=>a+(+e.value||0),0);$('sum').textContent=`確率の合計：${s}%`;$('warn').textContent=s===100?'':'（100%にしてください）';return s===100;}
+$('prizeRows').addEventListener('input',checkSum);
+$('save').onclick=()=>{if(!checkSum())return;document.querySelectorAll('#prizeRows input').forEach(e=>{const v=e.type==='number'?+e.value:e.value;cfg.prizes[+e.dataset.i][e.dataset.k]=v;});cfg.perDay=+$('perDay').value||1;store.set('promo.cfg',cfg);buildWheel();showTries();$('admin').classList.remove('on');};
+$('resetDraw').onclick=()=>{log={date:today(),counts:{},plays:0};my={date:today(),n:0};store.set('promo.log',log);store.set('promo.my',my);renderAdmin();showTries();};
+$('openAdmin').onclick=()=>{renderAdmin();$('admin').classList.add('on');};$('closeAdmin').onclick=()=>$('admin').classList.remove('on');
+
+buildWheel();showTries();
+</script>
+</body>
+</html>

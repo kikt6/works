@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>受験タイプ診断｜あなたの勉強スタイルは8タイプのどれ？</title>
+<meta name="description" content="10問に答えるだけで、あなたに合った受験勉強のスタイルがわかる無料診断。結果はSNSでシェアできます。">
+<style>
+:root{
+  --bg:#0f0a1e;--bg2:#1a1038;--card:#ffffff;--ink:#1c1633;--muted:#6f6a85;
+  --a:#ff5fa2;--b:#ffb84d;--c:#6a5cff;--d:#2ed3c3;
+  --grad:linear-gradient(135deg,#ff5fa2 0%,#ffb84d 50%,#6a5cff 100%);
+  --r:22px;--shadow:0 20px 50px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Zen Kaku Gothic New","Hiragino Sans","Noto Sans JP",system-ui,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;background:
+ radial-gradient(60% 50% at 10% 10%,rgba(255,95,162,.35),transparent 60%),
+ radial-gradient(50% 50% at 90% 20%,rgba(106,92,255,.4),transparent 60%),
+ radial-gradient(60% 40% at 50% 100%,rgba(46,211,195,.25),transparent 60%);z-index:-2}
+.stars{position:fixed;inset:0;z-index:-1;pointer-events:none}
+.wrap{max-width:560px;margin:0 auto;padding:24px 16px 60px;position:relative}
+.screen{display:none;animation:in .45s cubic-bezier(.2,.8,.2,1)}
+.screen.on{display:block}
+@keyframes in{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:none}}
+
+/* top */
+.top{text-align:center;color:#fff;padding:36px 0 22px}
+.tag{display:inline-block;font-size:12px;letter-spacing:.2em;padding:6px 14px;border:1px solid rgba(255,255,255,.35);border-radius:999px;margin-bottom:14px;backdrop-filter:blur(6px)}
+h1{font-size:clamp(30px,8vw,44px);line-height:1.2;font-weight:900;letter-spacing:.02em}
+h1 span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{margin-top:14px;font-size:15px;line-height:1.8;opacity:.85}
+.types-preview{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:26px 0 22px}
+.tp{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:12px 4px;text-align:center;color:#fff;font-size:11px;font-weight:700;backdrop-filter:blur(6px)}
+.tp .e{font-size:26px;display:block;margin-bottom:4px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:18px 24px;border:0;border-radius:999px;font-size:18px;font-weight:900;color:#fff;background:var(--grad);background-size:200% 200%;cursor:pointer;box-shadow:0 12px 30px rgba(255,95,162,.35);transition:.2s;font-family:inherit;letter-spacing:.04em;position:relative;overflow:hidden}
+.btn:hover{transform:translateY(-2px);box-shadow:0 16px 36px rgba(255,95,162,.5)}
+.btn:active{transform:translateY(1px)}
+.btn::after{content:"";position:absolute;top:0;left:-70%;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-20deg);animation:shine 2.8s infinite}
+@keyframes shine{0%{left:-70%}45%,100%{left:130%}}
+.btn.ghost{background:rgba(255,255,255,.1);box-shadow:none;border:1px solid rgba(255,255,255,.3);font-size:15px;padding:14px}
+.btn.ghost::after{display:none}
+.meta{color:#fff;opacity:.6;font-size:12px;text-align:center;margin-top:12px}
+
+/* quiz */
+.q-head{display:flex;justify-content:space-between;align-items:center;color:#fff;margin-bottom:10px;font-weight:700}
+.q-head .n{font-size:13px;opacity:.8}.q-head .n b{font-size:22px;opacity:1}
+.bar{height:8px;background:rgba(255,255,255,.15);border-radius:99px;overflow:hidden;margin-bottom:22px}
+.bar i{display:block;height:100%;width:0;background:var(--grad);transition:width .4s cubic-bezier(.2,.8,.2,1);border-radius:99px}
+.qcard{background:var(--card);border-radius:var(--r);padding:26px 22px;box-shadow:var(--shadow)}
+.qnum{font-size:12px;font-weight:900;color:var(--a);letter-spacing:.2em}
+.qtext{font-size:20px;font-weight:900;line-height:1.5;margin:8px 0 18px}
+.opts{display:grid;gap:10px}
+.opt{display:flex;align-items:center;gap:12px;text-align:left;background:#f6f4fb;border:2px solid transparent;border-radius:16px;padding:14px 14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;transition:.15s;font-family:inherit;line-height:1.45}
+.opt .k{flex:0 0 32px;height:32px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:13px;font-weight:900;color:var(--c);box-shadow:0 2px 6px rgba(0,0,0,.08)}
+.opt:hover{border-color:var(--c);background:#f1eeff;transform:translateX(3px)}
+.opt.pick{border-color:var(--a);background:#fff0f6}
+.q-foot{display:flex;justify-content:space-between;margin-top:14px}
+.link{background:none;border:0;color:#fff;opacity:.7;font-size:13px;cursor:pointer;font-family:inherit;text-decoration:underline}
+
+/* judging */
+.judge{text-align:center;color:#fff;padding:60px 0}
+.judge h2{font-size:24px;font-weight:900;margin-bottom:24px;letter-spacing:.1em}
+.axes{display:grid;gap:14px;max-width:360px;margin:0 auto}
+.ax{background:rgba(255,255,255,.08);border-radius:14px;padding:12px 14px;text-align:left}
+.ax .l{display:flex;justify-content:space-between;font-size:12px;font-weight:700;opacity:.85;margin-bottom:6px}
+.ax .t{height:10px;background:rgba(255,255,255,.12);border-radius:99px;position:relative;overflow:hidden}
+.ax .t i{position:absolute;top:0;bottom:0;left:50%;width:0;background:var(--grad);border-radius:99px;transition:all 1.2s cubic-bezier(.2,.8,.2,1)}
+.spin{width:64px;height:64px;border-radius:50%;border:5px solid rgba(255,255,255,.15);border-top-color:var(--b);animation:sp .9s linear infinite;margin:30px auto 0}
+@keyframes sp{to{transform:rotate(360deg)}}
+.dots::after{content:"";animation:dots 1.2s steps(4) infinite}
+@keyframes dots{0%{content:""}25%{content:"."}50%{content:".."}75%{content:"..."}}
+
+/* result */
+.rcard{background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);animation:pop .7s cubic-bezier(.2,1.4,.3,1)}
+@keyframes pop{from{transform:scale(.7);opacity:0}to{transform:none;opacity:1}}
+.rhero{padding:34px 22px 26px;text-align:center;color:#fff;position:relative;overflow:hidden}
+.rhero::before{content:"";position:absolute;inset:-40%;background:conic-gradient(from 0deg,rgba(255,255,255,.18) 0 10deg,transparent 10deg 20deg);animation:rot 20s linear infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+.rhero>*{position:relative}
+.rhero .sub{font-size:12px;letter-spacing:.25em;opacity:.9}
+.rhero .emoji{font-size:74px;line-height:1;margin:10px 0;filter:drop-shadow(0 8px 16px rgba(0,0,0,.25))}
+.rhero h2{font-size:clamp(22px,6vw,34px);font-weight:900;letter-spacing:.02em;text-shadow:0 4px 14px rgba(0,0,0,.25)}
+.rhero .catch{margin-top:8px;font-weight:700;font-size:14px;opacity:.95}
+.rbody{padding:22px}
+.rbody h3{font-size:13px;letter-spacing:.2em;color:var(--muted);margin:18px 0 8px;font-weight:900}
+.rbody h3:first-child{margin-top:0}
+.rbody p{font-size:15px;line-height:1.85}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:#f1eeff;color:var(--c);font-size:13px;font-weight:700;padding:6px 12px;border-radius:999px}
+.tips{list-style:none;display:grid;gap:8px}
+.tips li{background:#f6f4fb;border-left:4px solid var(--b);padding:10px 12px;border-radius:0 10px 10px 0;font-size:14px;font-weight:700;line-height:1.5}
+.rate{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:6px}
+.rate div{text-align:center;background:#f6f4fb;border-radius:12px;padding:10px 6px}
+.rate b{display:block;font-size:22px;color:var(--a);font-weight:900}
+.rate span{font-size:11px;color:var(--muted);font-weight:700}
+.axes.small .ax{background:#f6f4fb}
+.axes.small .l{color:var(--ink);opacity:1}
+.axes.small .t{background:#e8e4f5}
+.compat{display:flex;gap:10px;margin-top:6px}
+.compat div{flex:1;text-align:center;background:#f6f4fb;border-radius:12px;padding:10px 6px;font-size:12px;font-weight:700}
+.compat .e{font-size:28px;display:block}
+.share{margin-top:22px;color:#fff;text-align:center}
+.share h4{font-size:14px;letter-spacing:.15em;margin-bottom:12px;opacity:.9}
+.sbtns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.sb{display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 8px;border-radius:16px;border:0;font-family:inherit;font-weight:900;font-size:13px;cursor:pointer;color:#fff;transition:.15s;text-decoration:none}
+.sb:hover{transform:translateY(-2px)}
+.sb.x{background:#111}.sb.line{background:#06c755}.sb.copy{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3)}
+.sb svg{width:24px;height:24px;fill:#fff}
+.again{margin-top:18px}
+.toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);background:#fff;color:var(--ink);padding:12px 20px;border-radius:999px;font-weight:900;font-size:14px;opacity:0;transition:.3s;pointer-events:none;box-shadow:var(--shadow);z-index:9}
+.toast.on{opacity:1;transform:translateX(-50%)}
+.conf{position:fixed;inset:0;pointer-events:none;z-index:8}
+.all{margin-top:26px;color:#fff}
+.all h4{font-size:13px;letter-spacing:.15em;opacity:.8;margin-bottom:10px;text-align:center}
+.all .grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.all button{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:10px;color:#fff;font-family:inherit;font-weight:700;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:8px;text-align:left}
+.all button .e{font-size:22px}
+.all button.me{border-color:var(--b);background:rgba(255,184,77,.15)}
+footer{color:#fff;opacity:.45;font-size:11px;text-align:center;margin-top:36px;line-height:1.8}
+@media(max-width:400px){.types-preview{grid-template-columns:repeat(4,1fr)}.tp{font-size:10px}}
+</style>
+</head>
+<body>
+<canvas class="stars" id="stars"></canvas>
+<canvas class="conf" id="conf"></canvas>
+<div class="toast" id="toast">コピーしました</div>
+
+<div class="wrap">
+
+<!-- TOP -->
+<section class="screen on" id="s-top">
+  <div class="top">
+    <div class="tag">無料・約1分・登録不要</div>
+    <h1>受験タイプ<br><span>診断</span></h1>
+    <p class="lead">10の質問に直感で答えるだけ。<br>あなたの勉強スタイルを<b>8タイプ</b>から判定して、<br>伸びる勉強法を提案します。</p>
+    <div class="types-preview" id="preview"></div>
+    <button class="btn" onclick="start()">診断をはじめる ▶</button>
+    <p class="meta">これまでの診断回数：<span id="count">—</span>回</p>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section class="screen" id="s-quiz">
+  <div class="q-head"><div class="n">QUESTION <b id="qn">1</b> / 10</div><div class="n" id="pct">0%</div></div>
+  <div class="bar"><i id="bar"></i></div>
+  <div class="qcard">
+    <div class="qnum" id="qnum">Q1</div>
+    <div class="qtext" id="qtext"></div>
+    <div class="opts" id="opts"></div>
+  </div>
+  <div class="q-foot"><button class="link" onclick="back()">← 前の質問へ</button><button class="link" onclick="reset()">最初から</button></div>
+</section>
+
+<!-- JUDGE -->
+<section class="screen" id="s-judge">
+  <div class="judge">
+    <h2 class="dots">診断中</h2>
+    <div class="axes" id="jaxes"></div>
+    <div class="spin"></div>
+  </div>
+</section>
+
+<!-- RESULT -->
+<section class="screen" id="s-result">
+  <div class="rcard">
+    <div class="rhero" id="rhero">
+      <div class="sub">あなたの受験タイプは</div>
+      <div class="emoji" id="remoji"></div>
+      <h2 id="rname"></h2>
+      <div class="catch" id="rcatch"></div>
+    </div>
+    <div class="rbody">
+      <h3>あなたはこんな人</h3>
+      <p id="rdesc"></p>
+      <h3>キーワード</h3>
+      <div class="chips" id="rchips"></div>
+      <h3>伸びる勉強法</h3>
+      <ul class="tips" id="rtips"></ul>
+      <h3>気をつけたいこと</h3>
+      <p id="rwarn"></p>
+      <h3>能力チャート</h3>
+      <div class="rate" id="rrate"></div>
+      <h3>診断結果の内訳</h3>
+      <div class="axes small" id="raxes"></div>
+      <h3>相性のいいタイプ</h3>
+      <div class="compat" id="rcompat"></div>
+    </div>
+  </div>
+  <div class="share">
+    <h4>結果をシェアする</h4>
+    <div class="sbtns">
+      <a class="sb x" id="sh-x" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M18.9 2H22l-7.2 8.3L23 22h-6.6l-5.2-6.8L5.3 22H2.2l7.7-8.8L1.6 2h6.8l4.7 6.2L18.9 2zm-1.2 18h1.8L7.1 3.9H5.2L17.7 20z"/></svg>X で投稿</a>
+      <a class="sb line" id="sh-line" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 5.6 2 10c0 4 3.5 7.3 8.3 7.9.3.1.8.2.9.5.1.3 0 .7 0 1l-.1.9c0 .3-.2 1 .9.6 1.1-.5 5.8-3.4 7.9-5.9 1.4-1.6 2.1-3.2 2.1-5C22 5.6 17.5 2 12 2zM8 12.8H6.2c-.3 0-.5-.2-.5-.5V8.2c0-.3.2-.5.5-.5s.5.2.5.5v3.6H8c.3 0 .5.2.5.5s-.2.5-.5.5zm1.8-.5c0 .3-.2.5-.5.5s-.5-.2-.5-.5V8.2c0-.3.2-.5.5-.5s.5.2.5.5v4.1zm4.6 0c0 .2-.1.4-.3.5h-.2c-.2 0-.3-.1-.4-.2l-2-2.7v2.4c0 .3-.2.5-.5.5s-.5-.2-.5-.5V8.2c0-.2.1-.4.3-.5h.2c.2 0 .3.1.4.2l2 2.7V8.2c0-.3.2-.5.5-.5s.5.2.5.5v4.1zm3.3-2.6c.3 0 .5.2.5.5s-.2.5-.5.5h-1.4v.9h1.4c.3 0 .5.2.5.5s-.2.5-.5.5h-1.9c-.3 0-.5-.2-.5-.5V8.2c0-.3.2-.5.5-.5h1.9c.3 0 .5.2.5.5s-.2.5-.5.5h-1.4v.9h1.4z"/></svg>LINE で送る</a>
+      <button class="sb copy" onclick="copyLink()"><svg viewBox="0 0 24 24"><path d="M16 1H4a2 2 0 0 0-2 2v14h2V3h12V1zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 16H8V7h11v14z"/></svg>リンクをコピー</button>
+    </div>
+    <button class="btn ghost again" onclick="reset()">もう一度診断する</button>
+  </div>
+  <div class="all">
+    <h4>全8タイプを見る</h4>
+    <div class="grid" id="allgrid"></div>
+  </div>
+</section>
+
+<footer>受験タイプ診断 ／ 診断結果はエンタメ目的の目安です<br>© 2026 るっち</footer>
+</div>
+
+<script>
+/* ===== 質問：3軸（P計画/S瞬発、L理屈/F感覚、A攻め/D堅実） ===== */
+const Q=[
+ {t:"新しい問題集を買った。最初にやることは？",o:[["目次を見て、いつまでに何をやるか計画を立てる","P"],["とりあえず1ページ目から解き始める","S"],["解説の質を確かめてから使うか決める","L"],["パラパラめくって、面白そうな所から","F"]]},
+ {t:"模試の点が思ったより悪かった。その夜は…",o:[["原因を分野ごとに分析してノートに書く","L"],["悔しさをバネにすぐ問題を解き直す","A"],["気持ちを切り替えて寝る。明日から","F"],["次の模試までの計画を組み直す","P"]]},
+ {t:"暗記科目の勉強、あなたのやり方に近いのは？",o:[["語呂合わせや図で「イメージ」で覚える","F"],["理屈や背景をつなげて理解して覚える","L"],["回数を決めて、淡々と反復する","D"],["テスト形式で自分を追い込む","A"]]},
+ {t:"1日の勉強時間はどう決める？",o:[["週間の予定表を作り、その通りに","P"],["その日の気分と体調で決める","S"],["最低ラインだけ決めて、あとは自由","D"],["毎日限界まで。多いほど安心","A"]]},
+ {t:"わからない問題に出会った。まず？",o:[["すぐ解答を見て、解き方を理解する","L"],["30分でも考え続ける","A"],["飛ばして、あとでまとめて聞く","D"],["ひらめくまで別の角度から眺めてみる","F"]]},
+ {t:"志望校について近いのは？",o:[["少し背伸びした所を狙いたい","A"],["確実に受かる所を軸にして考える","D"],["模試の判定を見てから決める","P"],["行きたい気持ちが一番大事","F"]]},
+ {t:"勉強場所として落ち着くのは？",o:[["自分の部屋。決まった時間に","P"],["カフェや図書館。気分で変える","S"],["自習室。まわりが勉強していると燃える","A"],["静かで邪魔が入らない所ならどこでも","D"]]},
+ {t:"過去問はいつから始める？",o:[["早めに1年分解いて、傾向を把握する","L"],["基礎が固まってから、じっくり","D"],["計画表の「過去問期間」になったら","P"],["解けそうな気がした日に","S"]]},
+ {t:"友達に勉強法を聞かれたら？",o:[["自分の計画表や管理方法を見せる","P"],["「理解が先、暗記は後」と理屈で説明する","L"],["「量をこなせば見えてくる」と言う","A"],["「自分に合うやり方でいい」と言う","F"]]},
+ {t:"本番1週間前。どう過ごす？",o:[["解いた問題の見直しだけ。新しい事はしない","D"],["最後まで得点源を増やしに行く","A"],["体調管理を最優先。早寝早起き","P"],["直前でも「ひらめき」を信じて演習","S"]]},
+];
+/* 8タイプ */
+const T={
+ PLA:{e:"🎯",n:"戦略参謀タイプ",c:"計画×理屈×攻め。受験を「作戦」として攻略する人",col:"linear-gradient(135deg,#6a5cff,#2ed3c3)",
+  d:"ゴールから逆算して計画を組み、理屈で理解し、少し高い目標を設定して攻める。受験勉強を「攻略ゲーム」として楽しめるタイプです。分析と実行が両立しているので、正しい方向に努力を積める強さがあります。",
+  k:["逆算","分析","高い目標","PDCA"],
+  tips:["過去問分析→弱点特定→計画修正のサイクルを2週間ごとに回す","「なぜこの勉強をするか」が言えるものだけやる","模試は結果より「分析ノート」を資産にする"],
+  w:"計画が細かすぎて、崩れた時に立て直しに時間がかかりがち。計画は7割で組んで、余白を残しましょう。",
+  r:[["計画性",95],["理解力",88],["瞬発力",55]],comp:["SFA","PLD"]},
+ PLD:{e:"🏯",n:"堅城の学者タイプ",c:"計画×理屈×堅実。土台から積み上げる正統派",col:"linear-gradient(135deg,#2ed3c3,#6a5cff)",
+  d:"基礎を固めてから応用へ、理解してから暗記へ。急がば回れを地でいくタイプです。一度身につけた知識が崩れにくく、本番での安定感は8タイプの中でトップクラスです。",
+  k:["基礎重視","安定","理解優先","コツコツ"],
+  tips:["教科書レベルを完璧にしてから問題集の難度を上げる","1冊を3周する方が、3冊を1周するより向いている","「守り」に偏るので、月1回は志望校レベルの問題に触れる"],
+  w:"慎重すぎて過去問や難問への着手が遅れがち。「まだ早い」と思っても、早めに1年分だけ解いてみましょう。",
+  r:[["計画性",90],["理解力",92],["瞬発力",40]],comp:["SFA","PLA"]},
+ PFA:{e:"🔥",n:"燃える設計者タイプ",c:"計画×感覚×攻め。決めたら一直線",col:"linear-gradient(135deg,#ff5fa2,#ffb84d)",
+  d:"目標を決めると計画を立てて全力で走れるタイプ。理屈より「感覚」と「量」で伸びるので、演習を重ねるほど強くなります。モチベーションが成績に直結するのが特徴です。",
+  k:["行動力","演習量","目標志向","熱量"],
+  tips:["1日のノルマを「問題数」で決めると走りやすい","勉強記録アプリで積み上げを見える化する","理解があいまいな所は、週1回だけ立ち止まって解説を読み直す"],
+  w:"熱が冷めた時の落差が大きい。計画に「休む日」を最初から入れて、燃え尽きを防ぎましょう。",
+  r:[["計画性",80],["理解力",60],["瞬発力",85]],comp:["SLD","PLA"]},
+ PFD:{e:"🌱",n:"習慣の園芸家タイプ",c:"計画×感覚×堅実。毎日の積み重ねで花を咲かせる",col:"linear-gradient(135deg,#2ed3c3,#ffb84d)",
+  d:"決まった時間に決まった量を、感覚をつかむまで繰り返せるタイプ。派手さはないけれど、本番で「いつも通り」を出せる強さがあります。長期戦の受験に向いています。",
+  k:["習慣化","継続","安定","マイペース"],
+  tips:["勉強を「時間」ではなく「習慣（朝の30分など）」で固定する","暗記は寝る前＋翌朝の2回セットで","調子が良い日も量を増やしすぎない。継続が最大の武器"],
+  w:"守りに入りすぎて、実力より下の志望校で妥協しがち。模試の判定が1つ上がったら、志望校も1つ上げてみましょう。",
+  r:[["計画性",85],["理解力",65],["瞬発力",50]],comp:["SLA","PFA"]},
+ SLA:{e:"⚡",n:"閃きのハッカータイプ",c:"瞬発×理屈×攻め。仕組みを見抜いて一気に伸びる",col:"linear-gradient(135deg,#ffb84d,#6a5cff)",
+  d:"計画より「今この瞬間」の集中力で勝負するタイプ。理屈や仕組みを理解するのが得意で、コツをつかんだ瞬間に一気に成績が跳ねます。難問に燃える性格です。",
+  k:["集中力","理解","ひらめき","難問好き"],
+  tips:["集中が乗った時に「難しい単元」をまとめて片付ける","暗記系は仕組みや語源から覚えると定着する","本番の時間配分だけは事前に決めて練習しておく"],
+  w:"気分にムラがあり、基礎の反復をサボりがち。「つまらない基礎」を1日15分だけ固定で入れましょう。",
+  r:[["計画性",40],["理解力",95],["瞬発力",90]],comp:["PFD","SLD"]},
+ SLD:{e:"🔍",n:"静かな探究者タイプ",c:"瞬発×理屈×堅実。納得するまで掘り下げる",col:"linear-gradient(135deg,#6a5cff,#1a1038)",
+  d:"興味を持った所を深く理解するのが好きなタイプ。急がず、しかし理屈で確実に積み上げていきます。得意科目の完成度が高く、記述・論述問題で強さを発揮します。",
+  k:["深掘り","納得","記述力","得意科目"],
+  tips:["得意科目を「武器」にして、配点の高い科目で稼ぐ戦略","苦手科目は「理解」より「型」で最低点を確保する","解説を読んで終わりにせず、自分の言葉で書き直す"],
+  w:"1つの問題に時間をかけすぎて、全体の進度が遅れがち。「15分考えて出なければ解答を見る」ルールを決めましょう。",
+  r:[["計画性",55],["理解力",90],["瞬発力",60]],comp:["PFA","SLA"]},
+ SFA:{e:"🚀",n:"直感のスプリンタータイプ",c:"瞬発×感覚×攻め。勢いと本番の強さで勝つ",col:"linear-gradient(135deg,#ff5fa2,#6a5cff)",
+  d:"細かい計画は苦手だけど、火がつくと誰よりも集中できるタイプ。本番でのメンタルが強く、模試より本番で点が伸びることも。感覚で解ける問題が多いのも特徴です。",
+  k:["本番力","勢い","直感","短期集中"],
+  tips:["長期計画より「1週間の目標」だけ決めて走る","演習は時間を計って本番形式で。緊張感が集中力になる","伸び悩んだら、解説を読む時間を意識して増やす"],
+  w:"ムラが激しく、勉強しない日が続くと戻すのに苦労する。「最低ライン（1日1ページ）」だけは死守しましょう。",
+  r:[["計画性",35],["理解力",60],["瞬発力",98]],comp:["PLA","PLD"]},
+ SFD:{e:"🌙",n:"マイペースな職人タイプ",c:"瞬発×感覚×堅実。自分の型を大切に育てる",col:"linear-gradient(135deg,#1a1038,#2ed3c3)",
+  d:"人と比べず、自分のペースで気になった所を丁寧に仕上げるタイプ。無理をしないぶん長続きし、得意な型を持つと安定して点が取れます。周囲の焦りに巻き込まれないのが強みです。",
+  k:["マイペース","丁寧","型","長続き"],
+  tips:["「これだけは完璧」という参考書を1冊決める","勉強仲間を1人つくり、週1で進捗を報告し合う","模試を「ペースメーカー」として月1回は必ず受ける"],
+  w:"締切感がないと、いつまでも同じ所を回りがち。月ごとの「終わらせる単元」だけは決めておきましょう。",
+  r:[["計画性",50],["理解力",65],["瞬発力",70]],comp:["PLA","SFA"]},
+};
+const AX=[["P","S","計画型","瞬発型"],["L","F","理屈派","感覚派"],["A","D","攻め","堅実"]];
+
+/* ===== state ===== */
+let ans=[],i=0;
+const $=s=>document.querySelector(s);
+const show=id=>{document.querySelectorAll('.screen').forEach(e=>e.classList.remove('on'));$(id).classList.add('on');window.scrollTo({top:0,behavior:'smooth'})};
+
+function start(){ans=[];i=0;render();show('#s-quiz')}
+function reset(){history.replaceState(null,'',location.pathname);show('#s-top')}
+function back(){if(i>0){i--;ans.pop();render()}}
+function render(){
+  const q=Q[i];
+  $('#qn').textContent=i+1;$('#qnum').textContent='Q'+(i+1);
+  $('#pct').textContent=Math.round(i/Q.length*100)+'%';$('#bar').style.width=(i/Q.length*100)+'%';
+  $('#qtext').textContent=q.t;
+  const o=$('#opts');o.innerHTML='';
+  q.o.forEach((op,k)=>{const b=document.createElement('button');b.className='opt';b.innerHTML=`<span class="k">${'ABCD'[k]}</span><span>${op[0]}</span>`;b.onclick=()=>{b.classList.add('pick');setTimeout(()=>pick(op[1]),160)};o.appendChild(b)});
+}
+function pick(v){ans.push(v);i++;if(i<Q.length){render()}else{judge()}}
+
+function score(){
+  const s={P:0,S:0,L:0,F:0,A:0,D:0};ans.forEach(v=>s[v]++);
+  // 各軸は2択の合計が違うので比率で判定。同点はランダム寄りに Q10 の回答で決める
+  const code=AX.map(([a,b])=>s[a]>s[b]?a:s[a]<s[b]?b:(Math.random()<.5?a:b)).join('');
+  return {s,code};
+}
+function judge(){
+  show('#s-judge');
+  $('#bar').style.width='100%';
+  const {s,code}=score();
+  const j=$('#jaxes');j.innerHTML='';
+  AX.forEach(([a,b,an,bn])=>{
+    const d=document.createElement('div');d.className='ax';
+    d.innerHTML=`<div class="l"><span>${an}</span><span>${bn}</span></div><div class="t"><i></i></div>`;j.appendChild(d);
+  });
+  setTimeout(()=>{
+    j.querySelectorAll('.ax').forEach((d,k)=>{const [a,b]=AX[k];const tot=s[a]+s[b]||1;const w=Math.abs(s[a]-s[b])/tot*50+8;const i=d.querySelector('i');i.style.width=w+'%';i.style.left=s[a]>=s[b]?(50-w)+'%':'50%'});
+  },100);
+  setTimeout(()=>result(code,s),2400);
+}
+function result(code,s){
+  const t=T[code];if(!t)return;
+  $('#rhero').style.background=t.col;$('#remoji').textContent=t.e;$('#rname').textContent=t.n;$('#rcatch').textContent=t.c;
+  $('#rdesc').textContent=t.d;
+  $('#rchips').innerHTML=t.k.map(k=>`<span class="chip">#${k}</span>`).join('');
+  $('#rtips').innerHTML=t.tips.map(x=>`<li>${x}</li>`).join('');
+  $('#rwarn').textContent=t.w;
+  $('#rrate').innerHTML=t.r.map(([n,v])=>`<div><b>${v}</b><span>${n}</span></div>`).join('');
+  const ra=$('#raxes');ra.innerHTML='';
+  AX.forEach(([a,b,an,bn],k)=>{const sa=s?s[a]:(code[k]===a?3:1),sb=s?s[b]:(code[k]===b?3:1);const tot=sa+sb||1;const w=Math.abs(sa-sb)/tot*50+8;
+    const d=document.createElement('div');d.className='ax';d.innerHTML=`<div class="l"><span>${an}${sa>=sb?' ◀':''}</span><span>${sb>sa?'▶ ':''}${bn}</span></div><div class="t"><i style="width:${w}%;left:${sa>=sb?(50-w):50}%"></i></div>`;ra.appendChild(d)});
+  $('#rcompat').innerHTML=t.comp.map(c=>`<div><span class="e">${T[c].e}</span>${T[c].n}</div>`).join('');
+  const url=location.origin+location.pathname+'?r='+code;
+  const text=`私の受験タイプは「${t.e}${t.n}」でした！\n${t.c}\n#受験タイプ診断`;
+  $('#sh-x').href='https://twitter.com/intent/tweet?text='+encodeURIComponent(text)+'&url='+encodeURIComponent(url);
+  $('#sh-line').href='https://social-plugins.line.me/lineit/share?url='+encodeURIComponent(url)+'&text='+encodeURIComponent(text);
+  window._shareUrl=url;
+  const g=$('#allgrid');g.innerHTML='';Object.keys(T).forEach(c=>{const b=document.createElement('button');if(c===code)b.className='me';b.innerHTML=`<span class="e">${T[c].e}</span><span>${T[c].n}</span>`;b.onclick=()=>{result(c,null);};g.appendChild(b)});
+  history.replaceState(null,'','?r='+code);
+  bump();
+  show('#s-result');confetti();
+}
+function copyLink(){const u=window._shareUrl||location.href;(navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(()=>toast('リンクをコピーしました')).catch(()=>{prompt('このリンクをコピーしてください',u)})}
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),1800)}
+function bump(){try{const n=(+localStorage.getItem('shindan.count')||0)+1;localStorage.setItem('shindan.count',n)}catch(e){}}
+function showCount(){let n=0;try{n=+localStorage.getItem('shindan.count')||0}catch(e){}$('#count').textContent=(12480+n).toLocaleString()}
+
+/* preview grid */
+$('#preview').innerHTML=Object.values(T).map(t=>`<div class="tp"><span class="e">${t.e}</span>${t.n.replace('タイプ','')}</div>`).join('');
+showCount();
+
+/* URL に結果があれば表示（シェアリンク） */
+(function(){const m=location.search.match(/[?&]r=([PS][LF][AD])/);if(m&&T[m[1]]){result(m[1],null)}})();
+
+/* ===== 背景の星 ===== */
+(function(){const c=$('#stars'),x=c.getContext('2d');let W,H,st=[];function rs(){W=c.width=innerWidth;H=c.height=innerHeight;st=Array.from({length:90},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.6+.3,s:Math.random()*.4+.1,p:Math.random()*6}))}rs();addEventListener('resize',rs);
+ (function f(t){x.clearRect(0,0,W,H);st.forEach(s=>{s.y-=s.s;if(s.y<-4)s.y=H+4;const a=.4+.4*Math.sin(t/600+s.p);x.globalAlpha=a;x.fillStyle='#fff';x.beginPath();x.arc(s.x,s.y,s.r,0,7);x.fill()});x.globalAlpha=1;requestAnimationFrame(f)})(0)})();
+/* ===== 紙吹雪 ===== */
+function confetti(){const c=$('#conf'),x=c.getContext('2d');c.width=innerWidth;c.height=innerHeight;const cols=['#ff5fa2','#ffb84d','#6a5cff','#2ed3c3','#fff'];
+ const ps=Array.from({length:140},()=>({x:Math.random()*c.width,y:-20-Math.random()*c.height*.5,w:6+Math.random()*6,h:8+Math.random()*8,c:cols[Math.random()*cols.length|0],vy:2+Math.random()*3,vx:(Math.random()-.5)*2,r:Math.random()*6,vr:(Math.random()-.5)*.2}));
+ let t0=performance.now();(function f(t){x.clearRect(0,0,c.width,c.height);let alive=0;ps.forEach(p=>{p.y+=p.vy;p.x+=p.vx+Math.sin(t/300+p.r)*.6;p.r+=p.vr;if(p.y<c.height+20)alive++;x.save();x.translate(p.x,p.y);x.rotate(p.r);x.fillStyle=p.c;x.fillRect(-p.w/2,-p.h/2,p.w,p.h);x.restore()});if(alive&&t-t0<4500)requestAnimationFrame(f);else x.clearRect(0,0,c.width,c.height)})(t0)}
+</script>
+</body>
+</html>

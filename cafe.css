@@ -1,0 +1,52 @@
+:root{--bg:#f6f1e8;--ink:#2b2621;--brown:#6b4b32;--tea:#8a9a5b;--cream:#fffaf1;--line:#e5dccd;--muted:#7a6f63}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN",system-ui,sans-serif;line-height:1.9}
+.wrap{max-width:1000px;margin:0 auto;padding:0 20px}
+header{background:var(--cream);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:66px}
+.logo{font-family:"Shippori Mincho B1","Hiragino Mincho ProN",serif;font-weight:800;font-size:22px;color:var(--brown);text-decoration:none;letter-spacing:.06em}
+.logo small{display:block;font-size:10px;letter-spacing:.3em;color:var(--muted);font-family:sans-serif;font-weight:500}
+nav a{text-decoration:none;color:var(--ink);font-size:13px;font-weight:700;margin-left:22px;letter-spacing:.08em}
+nav a.on{color:var(--brown);border-bottom:2px solid var(--brown)}
+.menu-btn{display:none;background:none;border:0;font-size:24px;cursor:pointer}
+@media(max-width:700px){nav{display:none;position:absolute;left:0;right:0;top:66px;background:var(--cream);border-bottom:1px solid var(--line);padding:10px 20px 16px;flex-direction:column}nav.open{display:flex}nav a{margin:8px 0}.menu-btn{display:block}}
+.hero{position:relative;min-height:70vh;display:grid;place-items:center;text-align:center;color:#fff;background:linear-gradient(rgba(40,30,20,.35),rgba(40,30,20,.55)),radial-gradient(circle at 30% 30%,#a67c52,#3d2a1a 70%);padding:80px 20px}
+.hero h1{font-family:"Shippori Mincho B1","Hiragino Mincho ProN",serif;font-weight:800;font-size:clamp(34px,6vw,60px);margin:0 0 12px;letter-spacing:.08em;text-shadow:0 4px 20px rgba(0,0,0,.4)}
+.hero p{margin:0 0 26px;font-size:16px;opacity:.95}
+.btn{display:inline-block;padding:14px 28px;border-radius:999px;background:var(--cream);color:var(--brown);font-weight:900;text-decoration:none;letter-spacing:.06em;border:2px solid var(--cream)}
+.btn.ghost{background:transparent;color:#fff;margin-left:10px}
+section{padding:70px 0}
+.alt{background:var(--cream)}
+h2{font-family:"Shippori Mincho B1","Hiragino Mincho ProN",serif;font-weight:800;font-size:clamp(24px,3.4vw,32px);letter-spacing:.08em;margin:0 0 8px;color:var(--brown)}
+.sub{color:var(--muted);font-size:12px;letter-spacing:.3em;margin:0 0 30px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:center}
+@media(max-width:760px){.cols{grid-template-columns:1fr}}
+.photo{aspect-ratio:4/3;border-radius:18px;background:linear-gradient(135deg,#c9a57a,#7a5232);position:relative;overflow:hidden;box-shadow:0 20px 40px rgba(60,40,20,.2)}
+.photo:after{content:attr(data-label);position:absolute;left:14px;bottom:12px;font-size:11px;letter-spacing:.2em;color:rgba(255,255,255,.75)}
+.photo.cup{background:radial-gradient(circle at 50% 45%,#f4e5cf 0 24%,#6b4b32 25% 40%,#c9a57a 41%)}
+.photo.room{background:linear-gradient(180deg,#e8d9c2 0 55%,#8a6a4a 55% 62%,#5a4030 62%)}
+.photo.cake{background:radial-gradient(circle at 50% 60%,#fff2dc 0 18%,#d9b48c 19% 30%,#c9a57a 31%)}
+.lead{font-size:15.5px;color:#3d3630}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:760px){.grid3{grid-template-columns:1fr}}
+.card{background:var(--cream);border:1px solid var(--line);border-radius:16px;padding:22px}
+.card h3{margin:0 0 6px;font-size:17px;color:var(--brown)}
+.card p{margin:0;font-size:14px;color:#3d3630}
+.menu-list{display:grid;gap:12px}
+.mi{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:baseline;padding:14px 0;border-bottom:1px dashed var(--line)}
+.mi b{font-size:16px}.mi small{display:block;font-size:12px;color:var(--muted);margin-top:2px}
+.mi .y{font-family:"Shippori Mincho B1",serif;font-size:20px;color:var(--brown);white-space:nowrap}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+.tabs button{background:transparent;border:1px solid var(--line);border-radius:999px;padding:8px 16px;font:700 13px/1 inherit;color:var(--ink);cursor:pointer}
+.tabs button.on{background:var(--brown);color:#fff;border-color:var(--brown)}
+.info dl{display:grid;grid-template-columns:110px 1fr;gap:10px 16px;margin:0}
+.info dt{font-weight:700;color:var(--brown)}.info dd{margin:0}
+.map{aspect-ratio:16/9;border-radius:16px;background:#e2dccf;position:relative;overflow:hidden;display:grid;place-items:center;color:var(--muted);font-weight:700}
+.map:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 60px,rgba(0,0,0,.05) 60px 62px),repeating-linear-gradient(0deg,transparent 0 60px,rgba(0,0,0,.05) 60px 62px)}
+.map .road{position:absolute;left:0;right:0;top:45%;height:22px;background:#cfc7b7}.map .road.v{left:60%;top:0;bottom:0;width:22px;height:auto}
+.map .pin{position:absolute;left:62%;top:38%;width:24px;height:24px;background:var(--brown);border-radius:50% 50% 50% 0;transform:rotate(-45deg)}
+.hours{width:100%;border-collapse:collapse;font-size:14px}.hours td{padding:8px 0;border-bottom:1px solid var(--line)}.hours td:last-child{text-align:right}
+footer{background:var(--brown);color:#f3e9da;padding:36px 0;font-size:13px}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;align-items:center}
+footer a{color:#f3e9da;text-decoration:none;margin-right:16px}
+.notice{background:#fff3d6;border:1px solid #f0d9a0;border-radius:12px;padding:12px 16px;font-size:13px;margin-top:20px}

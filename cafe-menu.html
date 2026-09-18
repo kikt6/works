@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>メニュー｜喫茶 ことのは</title>
+<meta name="description" content="コーヒー・紅茶・ケーキ・軽食のメニュー。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Shippori+Mincho+B1:wght@700;800&display=swap">
+<link rel="stylesheet" href="cafe.css">
+</head>
+<body>
+<header><div class="wrap">
+  <a class="logo" href="cafe.html">喫茶 ことのは<small>KISSA KOTONOHA</small></a>
+  <button class="menu-btn" aria-label="メニュー" onclick="document.querySelector('nav').classList.toggle('open')">☰</button>
+  <nav><a href="cafe.html">ホーム</a><a href="cafe-menu.html" class="on">メニュー</a><a href="cafe-access.html">アクセス</a><a href="cafe-access.html#hours">営業時間</a></nav>
+</div></header>
+
+<section><div class="wrap">
+  <h2>メニュー</h2><p class="sub">MENU</p>
+  <div class="tabs" id="tabs"><button class="on" data-t="coffee">コーヒー</button><button data-t="tea">紅茶・その他</button><button data-t="cake">ケーキ</button><button data-t="food">軽食</button></div>
+  <div class="menu-list" id="coffee">
+    <div class="mi"><div><b>ことのはブレンド</b><small>深煎り。看板の一杯</small></div><span class="y">¥550</span></div>
+    <div class="mi"><div><b>アメリカン</b><small>浅めに淹れた軽い口あたり</small></div><span class="y">¥520</span></div>
+    <div class="mi"><div><b>カフェオレ</b><small>ホット／アイス</small></div><span class="y">¥600</span></div>
+    <div class="mi"><div><b>本日のシングルオリジン</b><small>週替わり。黒板をご覧ください</small></div><span class="y">¥650</span></div>
+    <div class="mi"><div><b>水出しアイスコーヒー</b><small>12時間かけて抽出</small></div><span class="y">¥600</span></div>
+  </div>
+  <div class="menu-list" id="tea" hidden>
+    <div class="mi"><div><b>ダージリン</b><small>ポットで2杯分</small></div><span class="y">¥600</span></div>
+    <div class="mi"><div><b>ほうじ茶ラテ</b><small>ホット／アイス</small></div><span class="y">¥580</span></div>
+    <div class="mi"><div><b>自家製ジンジャーエール</b><small>しょうが多め</small></div><span class="y">¥550</span></div>
+    <div class="mi"><div><b>りんごジュース</b><small>近江のふじ100%</small></div><span class="y">¥500</span></div>
+  </div>
+  <div class="menu-list" id="cake" hidden>
+    <div class="mi"><div><b>バスクチーズケーキ</b></div><span class="y">¥620</span></div>
+    <div class="mi"><div><b>りんごのタルト</b><small>秋冬限定</small></div><span class="y">¥580</span></div>
+    <div class="mi"><div><b>ほうじ茶のシフォン</b></div><span class="y">¥520</span></div>
+    <div class="mi"><div><b>ガトーショコラ</b></div><span class="y">¥580</span></div>
+    <div class="mi"><div><b>ケーキセット</b><small>お好きなケーキ＋ドリンク</small></div><span class="y">¥1,050</span></div>
+  </div>
+  <div class="menu-list" id="food" hidden>
+    <div class="mi"><div><b>厚切りトースト</b><small>バター・小倉・チーズから</small></div><span class="y">¥480</span></div>
+    <div class="mi"><div><b>たまごサンド</b><small>厚焼き玉子</small></div><span class="y">¥720</span></div>
+    <div class="mi"><div><b>ナポリタン</b><small>喫茶店の味</small></div><span class="y">¥880</span></div>
+    <div class="mi"><div><b>モーニングセット</b><small>〜11:00 トースト・ゆで卵・サラダ＋ドリンク</small></div><span class="y">¥750</span></div>
+  </div>
+  <div class="notice">価格はすべて税込。豆の量り売り：ことのはブレンド 100g ¥780 ／ シングルオリジン 100g ¥900〜</div>
+</div></section>
+<script>
+document.querySelectorAll('#tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#tabs button').forEach(x=>x.classList.toggle('on',x===b));['coffee','tea','cake','food'].forEach(id=>document.getElementById(id).hidden=id!==b.dataset.t);});
+</script>
+<footer><div class="wrap">
+  <div><b>喫茶 ことのは</b><br>〒525-0000 滋賀県草津市大路1-2-3 ことのはビル1F ／ 077-000-0000</div>
+  <div><a href="cafe.html">ホーム</a><a href="cafe-menu.html">メニュー</a><a href="cafe-access.html">アクセス</a><a href="#">Instagram</a></div>
+</div></footer>
+</body></html>
