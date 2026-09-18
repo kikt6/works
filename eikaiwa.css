@@ -43,8 +43,6 @@ header{position:absolute;top:0;left:0;width:100%;height:100px;padding:40px 0 0 5
 .mainvisual .fade li:nth-child(2){animation-delay:5s}
 .mainvisual .fade li:nth-child(3){animation-delay:10s}
 .mainvisual .fade img{width:100%;height:100%;object-fit:cover;-webkit-mask-image:linear-gradient(90deg,transparent,#000 15%,#000 100%);mask-image:linear-gradient(90deg,transparent,#000 15%,#000 100%)}
-.mainvisual .fade .alt2 img{transform:scale(1.12);object-position:30% 40%}
-.mainvisual .fade .alt3 img{transform:scale(1.25);object-position:70% 20%}
 @keyframes fade{0%{opacity:0}8%{opacity:1}33%{opacity:1}41%{opacity:0}100%{opacity:0}}
 .mainvisual .text{position:absolute;left:10%;top:280px;width:432px;z-index:2}
 .mainvisual .title{font-size:46px;font-weight:700;line-height:1.6;margin-bottom:30px;text-shadow:0 0 12px rgba(255,255,255,.9),0 0 30px rgba(255,255,255,.9)}
@@ -81,9 +79,7 @@ header{position:absolute;top:0;left:0;width:100%;height:100px;padding:40px 0 0 5
 .balloon.in .balloon-text{transform:none;opacity:1;transition:transform .6s cubic-bezier(.3,1.5,.4,1),opacity .4s}
 
 /* ===== summary ===== */
-#summary{padding:60px 0;background-color:#f2f2f2;
- background-image:radial-gradient(circle at 50% 50%,var(--red) 0 150px,transparent 151px),radial-gradient(circle at 50% 50%,var(--red) 0 150px,transparent 151px);
- background-size:640px 640px,640px 640px;background-position:-120px -60px,200px 260px}
+#summary{padding:60px 0;background:url(eikaiwa-bg.gif)}
 .menu{display:grid;grid-template-columns:1fr 1fr;gap:32px}
 .menu li{background:#fff;border-radius:20px;padding:60px;min-height:289px;box-shadow:0 10px 30px rgba(0,0,0,.08)}
 .menu-title{text-align:center;margin-bottom:20px;line-height:1.3}
@@ -142,7 +138,7 @@ footer .copyright{display:block;text-align:center;font-size:10px;margin-top:60px
   .student .name{font-size:10px}
   .balloon-text{padding:14px}
   .balloon-text::before{top:24px}
-  #summary{background-size:360px 360px,360px 360px;background-position:-90px -40px,90px 140px;background-image:radial-gradient(circle at 50% 50%,var(--red) 0 80px,transparent 81px),radial-gradient(circle at 50% 50%,var(--red) 0 80px,transparent 81px);padding:40px 0}
+  #summary{background-size:360px 360px;padding:40px 0}
   .menu{grid-template-columns:1fr;gap:20px}
   .menu li{padding:36px 28px;min-height:0}
   .menu-title .ja{font-size:22px}
