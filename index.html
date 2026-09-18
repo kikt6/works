@@ -22,6 +22,15 @@ h1{font-size:clamp(28px,5vw,44px);font-weight:900;margin:8px 0 12px;line-height:
 .card.g{border-top-color:var(--gold)}
 .note{margin-top:40px;padding-top:20px;border-top:1px solid var(--line);color:var(--sub);font-size:13px}
 .note a{color:var(--sky)}
+.promise{margin-top:44px;padding:28px;background:var(--card);border:1px solid var(--line);border-radius:18px}
+.promise h3{font-size:13px;letter-spacing:.2em;color:var(--gold);margin-bottom:14px}
+.promise ol{padding-left:0;list-style:none;display:grid;gap:10px}
+.promise li{display:flex;gap:12px;font-size:14px;color:var(--ink)}
+.promise li b{color:var(--gold);font-family:ui-monospace,monospace;flex:0 0 28px}
+.promise li span{color:var(--sub)}
+.promise .chk{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px}
+.promise .chk span{font-size:12px;color:var(--sub);border:1px solid var(--line);border-radius:999px;padding:5px 10px}
+.promise .chk span::before{content:"✓ ";color:#7FD6B8;font-weight:900}
 </style>
 </head>
 <body>
@@ -37,6 +46,17 @@ h1{font-size:clamp(28px,5vw,44px);font-weight:900;margin:8px 0 12px;line-height:
     <a class="card g" href="shindan.html"><span class="tag">診断コンテンツ</span><h2>受験タイプ診断</h2><p>10問→8タイプ判定。判定演出、勉強法アドバイス、X・LINEシェア、結果ごとのURL。</p><span class="go">診断する →</span></a>
     <a class="card g" href="https://kikt6.github.io/orbit/"><span class="tag">ブラウザゲーム</span><h2>周回軌道 ORBIT</h2><p>縦スクロールの宇宙シューティング。6宙域・機体3種・実績12種。ライブラリ不使用、効果音も自前で合成。</p><span class="go">遊ぶ →</span></a>
   </div>
+  <section class="promise">
+    <h3>お任せいただくときのお約束</h3>
+    <ol>
+      <li><b>01</b><div>返信は当日中 <span>— 平日は夜、土日は日中に返します。</span></div></li>
+      <li><b>02</b><div>着手前に「作るもの・納期・金額」を文章で確定 <span>— 追加費用が出るときは必ず先にご相談します。</span></div></li>
+      <li><b>03</b><div>2〜3日ごとに動く途中経過をURLで共有 <span>— 方向がずれていたら早い段階で直せます。</span></div></li>
+      <li><b>04</b><div>納品後1か月は不具合修正を無料で対応 <span>— その後の更新・保守も月額で続けられます。</span></div></li>
+    </ol>
+    <p style="margin-top:18px;font-size:13px;color:var(--gold);letter-spacing:.2em">納品前に必ず確認すること</p>
+    <div class="chk"><span>iPhone / Android / PC の表示</span><span>リンク切れ・誤字・画像の抜け</span><span>フォームの送信テスト</span><span>表示速度（画像の軽量化）</span><span>OGP・ファビコン・タイトル</span><span>公開手順とファイルの引き渡し</span></div>
+  </section>
   <p class="note">3Dバトルロイヤル・サバイバルゲーム・業務アプリ（審判割当）などは、お問い合わせのときにお見せします。制作のご相談は <a href="https://crowdworks.jp/public/employees/6202737">クラウドワークス</a> から。</p>
 </div>
 </body>
